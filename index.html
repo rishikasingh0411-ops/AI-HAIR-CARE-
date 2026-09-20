@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Hair Care Road Map</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f1f6;
+            color: #222;
+        }
+
+        .screen {
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .welcome-card {
+            text-align: center;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            background: #7b4bb7;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #7b4bb7;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #66399d;
+        }
+
+        .result-item {
+            background: #f7f3fa;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .result-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .recommendation-box {
+            background: #f7f3fa;
+            padding: 18px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .recommendation-box h3 {
+            color: #7b4bb7;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-list {
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        /* PROGRESS BAR */
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #eee6f5;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px 0 10px;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #7b4bb7;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        #progressPercent {
+            text-align: center;
+            font-weight: bold;
+            color: #7b4bb7;
+        }
+/* ================= DASHBOARD POLISH ================= */
+
+#dashboardScreen {
+    width: 100%;
+    max-width: 700px;
+}
+
+#dashboardScreen .card {
+    max-width: 650px;
+    padding: 25px;
+}
+
+#dashboardScreen .recommendation-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#dashboardScreen .recommendation-box h3 {
+    font-size: 20px;
+}
+
+#dashboardScreen button {
+    margin-top: 12px;
+    transition: 0.3s ease;
+}
+
+#dashboardScreen button:hover {
+    transform: translateY(-2px);
+}
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- ================= WELCOME ================= -->
+
+<div class="screen" id="welcomeScreen">
+
+    <div class="card welcome-card">
+
+        <div class="logo">
+            HC
+        </div>
+
+        <h1>AI Hair Care</h1>
+
+        <p class="subtitle">
+            Personalized hair care analysis and recommendations
+        </p>
+
+        <button id="startButton">
+            Get Started
+        </button>
+        <button id="loginPageButton">
+            Already have an account? Login
+        </button>
+
+    </div>
+
+</div>
+<!-- ================= LOGIN ================= -->
+
+<div class="screen hidden" id="loginScreen">
+
+    <div class="card">
+
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+            Login to continue your hair care journey
+        </p>
+
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email">
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password">
+
+        <button id="loginButton">
+            Login
+        </button>
+
+        <p id="loginMessage"></p>
+
+    </div>
+
+</div>
+<!-- ================= USER INFORMATION ================= -->
+
+<div class="screen hidden" id="formScreen">
+
+    <h1>Your Information</h1>
+
+    <p class="subtitle">
+        Tell us a little about yourself
+    </p>
+
+    <div class="card">
+
+        <label>Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+
+        <label>Age</label>
+        <input type="number" id="age" placeholder="Enter your age">
+
+        <label>Gender</label>
+
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+
+        <label>Phone</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number">
+
+        <button id="userContinue">
+            Continue
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= HAIR DETAILS ================= -->
+
+<div class="screen hidden" id="hairScreen">
+
+    <h1>Hair Details</h1>
+
+    <p class="subtitle">
+        Tell us about your hair
+    </p>
+
+    <div class="card">
+
+
+        <label>Hair Type</label>
+
+        <select id="hairType">
+
+            <option value="">
+                Select Hair Type
+            </option>
+
+            <option value="Straight">
+                Straight
+            </option>
+
+            <option value="Wavy">
+                Wavy
+            </option>
+
+            <option value="Curly">
+                Curly
+            </option>
+
+            <option value="Coily">
+                Coily
+            </option>
+
+        </select>
+
+
+        <label>Scalp Type</label>
+
+        <select id="scalpType">
+
+            <option value="">
+                Select Scalp Type
+            </option>
+
+            <option value="Normal">
+                Normal
+            </option>
+
+            <option value="Dry">
+                Dry
+            </option>
+
+            <option value="Oily">
+                Oily
+            </option>
+
+        </select>
+
+
+        <label>Main Hair Concern</label>
+
+        <select id="hairConcern">
+
+            <option value="">
+                Select Concern
+            </option>
+
+            <option value="Dryness">
+                Dryness
+            </option>
+
+            <option value="Frizz">
+                Frizz
+            </option>
+
+            <option value="Breakage">
+                Breakage
+            </option>
+
+            <option value="Dandruff">
+                Dandruff
+            </option>
+
+            <option value="Hair Fall">
+                Hair Fall
+            </option>
+
+        </select>
+
+
+        <label>Hair Wash Frequency</label>
+
+        <select id="washFrequency">
+
+            <option value="">
+                Select Frequency
+            </option>
+
+            <option value="Every day">
+                Every day
+            </option>
+
+            <option value="2-3 times a week">
+                2-3 times a week
+            </option>
+
+            <option value="Once a week">
+                Once a week
+            </option>
+
+            <option value="Less than once a week">
+                Less than once a week
+            </option>
+
+        </select>
+
+
+        <button id="hairContinue">
+            Continue
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= HAIR ANALYSIS ================= -->
+
+<div class="screen hidden" id="analysisScreen">
+
+    <h1>Hair Analysis</h1>
+
+    <p class="subtitle">
+        Your personalized hair profile
+    </p>
+
+    <div class="card">
+
+
+        <div class="result-item">
+
+            <strong>Name</strong>
+
+            <span id="resultName"></span>
+
+        </div>
+
+
+        <div class="result-item">
+
+            <strong>Hair Type</strong>
+
+            <span id="resultHairType"></span>
+
+        </div>
+
+
+        <div class="result-item">
+
+            <strong>Scalp Type</strong>
+
+            <span id="resultScalpType"></span>
+
+        </div>
+
+
+        <div class="result-item">
+
+            <strong>Main Concern</strong>
+
+            <span id="resultConcern"></span>
+
+        </div>
+
+
+        <div class="result-item">
+
+            <strong>Hair Wash Frequency</strong>
+
+            <span id="resultWash"></span>
+
+        </div>
+
+
+        <button id="recommendationButton">
+            Get AI Recommendation
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= AI RECOMMENDATION ================= -->
+
+<div class="screen hidden" id="recommendationScreen">
+
+    <h1>AI Recommendation</h1>
+
+    <p class="subtitle">
+        Recommendation based on your concern
+    </p>
+
+    <div class="card">
+
+
+        <div class="recommendation-box">
+
+            <h3 id="recommendationTitle">
+                Hair Care Recommendation
+            </h3>
+
+            <p id="recommendationText"></p>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                Recommended Routine
+            </h3>
+
+            <ul
+                class="recommendation-list"
+                id="routineList">
+            </ul>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                Scalp Care
+            </h3>
+
+            <p id="scalpRecommendation"></p>
+
+        </div>
+
+
+        <button id="productButton">
+            View Recommended Products
+        </button>
+
+
+        <button id="backButton">
+            Back to Analysis
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PRODUCT RECOMMENDATION ================= -->
+
+<div class="screen hidden" id="productScreen">
+
+    <h1>Product Recommendation</h1>
+
+    <p class="subtitle">
+        Products suggested based on your hair concern
+    </p>
+
+    <div class="card">
+
+
+        <div class="recommendation-box">
+
+            <h3 id="productTitle">
+                Recommended Products
+            </h3>
+
+            <ul
+                class="recommendation-list"
+                id="productList">
+            </ul>
+
+        </div>
+
+
+        <button id="backToRecommendation">
+            Back to Recommendation
+        </button>
+
+
+        <button id="routineButton">
+            View Hair Care Routine
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= HAIR CARE ROUTINE ================= -->
+
+<div class="screen hidden" id="routineScreen">
+
+    <h1>Hair Care Routine</h1>
+
+    <p class="subtitle">
+        Your personalized daily and weekly routine
+    </p>
+
+    <div class="card">
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                🌞 Morning Care
+            </h3>
+
+            <ul class="recommendation-list">
+
+                <li>
+                    Gently comb your hair.
+                </li>
+
+                <li>
+                    Avoid excessive heat styling.
+                </li>
+
+                <li>
+                    Keep hair protected from rough handling.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                🚿 Wash Day Routine
+            </h3>
+
+            <ul class="recommendation-list">
+
+                <li>
+                    Use a suitable shampoo for your scalp.
+                </li>
+
+                <li>
+                    Clean the scalp gently.
+                </li>
+
+                <li>
+                    Apply conditioner to the hair lengths.
+                </li>
+
+                <li>
+                    Rinse thoroughly.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                🌙 Night Care
+            </h3>
+
+            <ul class="recommendation-list">
+
+                <li>
+                    Gently detangle your hair.
+                </li>
+
+                <li>
+                    Avoid sleeping with very tight hairstyles.
+                </li>
+
+                <li>
+                    Keep hair clean and comfortable overnight.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                💆 Scalp Care
+            </h3>
+
+            <ul class="recommendation-list">
+
+                <li>
+                    Avoid aggressive scratching.
+                </li>
+
+                <li>
+                    Keep the scalp clean.
+                </li>
+
+                <li>
+                    Use hair products according to their instructions.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                📅 Weekly Care
+            </h3>
+
+            <ul class="recommendation-list">
+
+                <li>
+                    Follow a regular hair-washing routine.
+                </li>
+
+                <li>
+                    Use a conditioning treatment when appropriate.
+                </li>
+
+                <li>
+                    Check your hair and scalp for changes.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <button id="routineBackButton">
+            Back to Products
+        </button>
+
+
+        <button id="progressButton">
+            Track My Progress
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PROGRESS ================= -->
+
+<div class="screen hidden" id="progressScreen">
+
+    <h1>Hair Care Progress</h1>
+
+    <p class="subtitle">
+        Track your hair care progress
+    </p>
+
+    <div class="card">
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                📊 Progress Overview
+            </h3>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+
+            </div>
+
+
+            <p id="progressPercent">
+                0% completed
+            </p>
+
+        </div>
+
+
+        <div class="recommendation-box">
+
+            <h3>
+                ✅ Today's Care
+            </h3>
+
+            <p>
+                Complete your recommended hair-care routine regularly.
+            </p>
+
+
+            <button id="updateProgressButton">
+                Update Progress
+            </button>
+
+        </div>
+
+
+        <button id="backToRoutine">
+            Back to Routine
+        </button>
+        <button id="profileButton">
+            My Profile
+        </button>
+    </div>
+
+</div>
+<!-- ================= PROFILE ================= -->
+
+<div class="screen hidden" id="profileScreen">
+
+    <h1>My Profile</h1>
+
+    <p class="subtitle">
+        Your personal information
+    </p>
+
+    <div class="card">
+
+        <div class="result-item">
+            <strong>Name</strong>
+            <span id="profileName"></span>
+        </div>
+
+        <div class="result-item">
+            <strong>Age</strong>
+            <span id="profileAge"></span>
+        </div>
+
+        <div class="result-item">
+            <strong>Gender</strong>
+            <span id="profileGender"></span>
+        </div>
+
+        <div class="result-item">
+            <strong>Email</strong>
+            <span id="profileEmail"></span>
+        </div>
+
+        <div class="result-item">
+            <strong>Phone</strong>
+            <span id="profilePhone"></span>
+        </div>
+
+        <button id="profileHairButton">
+            View My Hair Profile
+        </button>
+
+        <button id="dashboardButton">
+            🏠 Dashboard
+        </button>
+
+        <button id="profileBackButton"> 
+            Back to Progress
+        </button>
+
+    </div>
+
+</div>
+<!-- ================= DASHBOARD ================= -->
+
+<div class="screen hidden" id="dashboardScreen">
+
+    <h1>AI Hair Care Dashboard</h1>
+
+    <p class="subtitle">
+        Manage your personalized hair care journey
+    </p>
+
+    <p id="dashboardUserName" class="subtitle">
+        Welcome to your dashboard
+    </p>
+<div class="recommendation-box">
+    <h3>📋 Quick Summary</h3>
+
+    <p>💇 Hair Type: <span id="summaryHairType">Not selected</span></p>
+    <p>🧴 Scalp Type: <span id="summaryScalpType">Not selected</span></p>
+    <p>✨ Main Concern: <span id="summaryConcern">Not selected</span></p>
+</div>
+ 
+<div class="recommendation-box">
+    <h3>✨ Your Hair Care Journey</h3>
+    <p>
+        Explore your hair analysis, personalized recommendations,
+        products, routine and progress all in one place.
+    </p>
+</div>
+ 
+    <div class="card">
+
+        <div class="recommendation-box">
+            <h3>👋 Welcome</h3>
+
+            <p>
+                Your personalized hair care dashboard
+            </p>
+        </div>
+
+
+        <button id="dashboardProfileButton">
+            👤 My Profile
+        </button>
+
+
+        <button id="dashboardAnalysisButton">
+            🔍 AI Hair Analysis
+        </button>
+
+
+        <button id="dashboardRecommendationButton">
+            💡 My Recommendation
+        </button>
+
+
+        <button id="dashboardProductButton">
+            🛍️ Recommended Products
+        </button>
+
+
+        <button id="dashboardRoutineButton">
+            🧴 Hair Care Routine
+        </button>
+
+
+        <button id="dashboardProgressButton">
+            📊 My Progress
+        </button>
+
+        <button id="logoutButton">
+            🚪 Logout
+        </button>
+    </div>
+
+</div>
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+
+// ==============================
+// SCREEN CHANGE
+// ==============================
+
+function showScreen(screenId) {
+
+    document.querySelectorAll(".screen").forEach(function(screen) {
+
+        screen.classList.add("hidden");
+
+    });
+
+
+    document.getElementById(screenId)
+        .classList.remove("hidden");
+
+}
+
+
+
+// ==============================
+// GET STARTED
+// ==============================
+
+document.getElementById("startButton")
+    .addEventListener("click", function() {
+
+        showScreen("formScreen");
+
+    });
+
+// ================= LOGIN =================
+
+document.getElementById("loginButton")
+    .addEventListener("click", function () {
+
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+        const message = document.getElementById("loginMessage");
+
+        if (email === "" || password === "") {
+            message.textContent = "Please enter email and password.";
+            return;
+        }
+
+        message.textContent = "Login successful!";
+
+        setTimeout(function () {
+            showScreen("formScreen");
+        }, 500);
+    });
+
+// ==============================
+// USER FORM
+// ==============================
+
+document.getElementById("userContinue")
+    .addEventListener("click", function() {
+
+
+        let name =
+            document.getElementById("name").value.trim();
+
+
+        let age =
+            document.getElementById("age").value.trim();
+
+
+        let gender =
+            document.getElementById("gender").value;
+
+
+        let email =
+            document.getElementById("email").value.trim();
+
+
+        let phone =
+            document.getElementById("phone").value.trim();
+
+
+        if (
+            name === "" ||
+            age === "" ||
+            gender === "" ||
+            email === "" ||
+            phone === ""
+        ) {
+
+            alert("Please fill all information.");
+
+            return;
+
+        }
+
+
+        localStorage.setItem("name", name);
+        localStorage.setItem("age", age);
+        localStorage.setItem("gender", gender);
+        localStorage.setItem("email", email);
+        localStorage.setItem("phone", phone);
+
+
+        showScreen("hairScreen");
+
+    });
+
+
+
+// ==============================
+// HAIR DETAILS
+// ==============================
+
+document.getElementById("hairContinue")
+    .addEventListener("click", function() {
+
+
+        let hairType =
+            document.getElementById("hairType").value;
+
+
+        let scalpType =
+            document.getElementById("scalpType").value;
+
+
+        let concern =
+            document.getElementById("hairConcern").value;
+
+
+        let wash =
+            document.getElementById("washFrequency").value;
+
+
+        if (
+            hairType === "" ||
+            scalpType === "" ||
+            concern === "" ||
+            wash === ""
+        ) {
+
+            alert("Please fill all hair details.");
+
+            return;
+
+        }
+
+
+        localStorage.setItem("hairType", hairType);
+        localStorage.setItem("scalpType", scalpType);
+        localStorage.setItem("hairConcern", concern);
+        localStorage.setItem("washFrequency", wash);
+
+
+        document.getElementById("resultName")
+            .textContent =
+            localStorage.getItem("name");
+
+
+        document.getElementById("resultHairType")
+            .textContent =
+            hairType;
+
+
+        document.getElementById("resultScalpType")
+            .textContent =
+            scalpType;
+
+
+        document.getElementById("resultConcern")
+            .textContent =
+            concern;
+
+
+        document.getElementById("resultWash")
+            .textContent =
+            wash;
+
+
+        showScreen("analysisScreen");
+
+    });
+
+
+
+// ==============================
+// AI RECOMMENDATION
+// ==============================
+
+document.getElementById("recommendationButton")
+    .addEventListener("click", function() {
+
+
+        let concern =
+            localStorage.getItem("hairConcern");
+
+
+        let title = "";
+        let text = "";
+        let routine = [];
+        let scalp = "";
+
+
+
+        if (concern === "Hair Fall") {
+
+
+            title = "Hair Fall Care";
+
+
+            text =
+                "Focus on gentle hair care and avoid excessive heat, tight hairstyles and rough handling.";
+
+
+            routine = [
+
+                "Use a gentle shampoo.",
+
+                "Use conditioner after washing.",
+
+                "Avoid very tight hairstyles.",
+
+                "Reduce excessive heat styling.",
+
+                "Maintain a balanced diet and adequate hydration."
+
+            ];
+
+
+            scalp =
+                "Keep the scalp clean and avoid aggressive scratching.";
+
+        }
+
+
+
+        else if (concern === "Dandruff") {
+
+
+            title = "Dandruff Care";
+
+
+            text =
+                "A consistent scalp-care routine can help manage dandruff and maintain scalp cleanliness.";
+
+
+            routine = [
+
+                "Use an appropriate anti-dandruff shampoo as directed.",
+
+                "Keep the scalp clean.",
+
+                "Avoid scratching the scalp.",
+
+                "Avoid heavy products directly on the scalp.",
+
+                "Follow a regular washing routine."
+
+            ];
+
+
+            scalp =
+                "If dandruff is persistent or severe, consider consulting a dermatologist.";
+
+        }
+
+
+
+        else if (concern === "Dryness") {
+
+
+            title = "Dry Hair Care";
+
+
+            text =
+                "Focus on gentle cleansing and regular conditioning to help maintain hair moisture.";
+
+
+            routine = [
+
+                "Use a gentle shampoo.",
+
+                "Use conditioner after washing.",
+
+                "Avoid excessive heat.",
+
+                "Handle wet hair gently.",
+
+                "Avoid very hot water."
+
+            ];
+
+
+            scalp =
+                "Use gentle products and avoid harsh cleansing if the scalp feels dry.";
+
+        }
+
+
+
+        else if (concern === "Frizz") {
+
+
+            title = "Frizz Control";
+
+
+            text =
+                "Gentle handling, conditioning and reduced heat can help manage frizz.";
+
+
+            routine = [
+
+                "Use conditioner regularly.",
+
+                "Avoid excessive heat styling.",
+
+                "Do not rub wet hair roughly.",
+
+                "Comb gently.",
+
+                "Keep hair adequately conditioned."
+
+            ];
+
+
+            scalp =
+                "Keep the scalp clean and avoid excessive product buildup.";
+
+        }
+
+
+
+        else if (concern === "Breakage") {
+
+
+            title = "Breakage Care";
+
+
+            text =
+                "Focus on gentle handling and reduce practices that put stress on the hair.";
+
+
+            routine = [
+
+                "Use conditioner regularly.",
+
+                "Avoid tight hairstyles.",
+
+                "Reduce excessive heat styling.",
+
+                "Comb hair gently.",
+
+                "Avoid rough towel drying."
+
+            ];
+
+
+            scalp =
+                "Maintain a gentle scalp-care routine and avoid aggressive scratching.";
+
+        }
+
+
+
+        else {
+
+
+            title = "Personalized Hair Care";
+
+
+            text =
+                "Maintain a gentle and consistent hair-care routine based on your hair and scalp type.";
+
+
+            routine = [
+
+                "Use a suitable shampoo.",
+
+                "Condition the hair regularly.",
+
+                "Avoid excessive heat.",
+
+                "Handle hair gently.",
+
+                "Maintain a regular washing routine."
+
+            ];
+
+
+            scalp =
+                "Keep your scalp clean and use gentle hair-care products.";
+
+        }
+
+
+
+        document.getElementById("recommendationTitle")
+            .textContent = title;
+
+
+        document.getElementById("recommendationText")
+            .textContent = text;
+
+
+        document.getElementById("scalpRecommendation")
+            .textContent = scalp;
+
+
+
+        let list =
+            document.getElementById("routineList");
+
+
+        list.innerHTML = "";
+
+
+
+        routine.forEach(function(item) {
+
+
+            let li =
+                document.createElement("li");
+
+
+            li.textContent = item;
+
+
+            list.appendChild(li);
+
+        });
+
+
+
+        showScreen("recommendationScreen");
+
+    });
+
+
+
+// ==============================
+// BACK TO ANALYSIS
+// ==============================
+
+document.getElementById("backButton")
+    .addEventListener("click", function() {
+
+        showScreen("analysisScreen");
+
+    });
+
+
+
+// ==============================
+// PRODUCT BUTTON
+// ==============================
+
+document.getElementById("productButton")
+    .addEventListener("click", function() {
+
+        showProducts();
+
+    });
+
+
+
+// ==============================
+// PRODUCT RECOMMENDATION
+// ==============================
+
+function showProducts() {
+
+
+    let concern =
+        localStorage.getItem("hairConcern");
+
+
+    let productList =
+        document.getElementById("productList");
+
+
+    let productTitle =
+        document.getElementById("productTitle");
+
+
+    productList.innerHTML = "";
+
+
+    let products = [];
+
+
+
+    if (concern === "Breakage") {
+
+
+        productTitle.textContent =
+            "Breakage Care Products";
+
+
+        products = [
+
+            "Strengthening Shampoo",
+
+            "Repair Conditioner",
+
+            "Hair Repair Serum",
+
+            "Deep Conditioning Hair Mask"
+
+        ];
+
+    }
+
+
+
+    else if (concern === "Hair Fall") {
+
+
+        productTitle.textContent =
+            "Hair Fall Care Products";
+
+
+        products = [
+
+            "Gentle Shampoo",
+
+            "Strengthening Conditioner",
+
+            "Scalp Care Serum",
+
+            "Nourishing Hair Mask"
+
+        ];
+
+    }
+
+
+
+    else if (concern === "Dandruff") {
+
+
+        productTitle.textContent =
+            "Dandruff Care Products";
+
+
+        products = [
+
+            "Anti-Dandruff Shampoo",
+
+            "Gentle Conditioner",
+
+            "Scalp Care Shampoo",
+
+            "Lightweight Scalp Treatment"
+
+        ];
+
+    }
+
+
+
+    else if (concern === "Dryness") {
+
+
+        productTitle.textContent =
+            "Dry Hair Care Products";
+
+
+        products = [
+
+            "Moisturizing Shampoo",
+
+            "Hydrating Conditioner",
+
+            "Hair Moisture Serum",
+
+            "Deep Hydration Hair Mask"
+
+        ];
+
+    }
+
+
+
+    else if (concern === "Frizz") {
+
+
+        productTitle.textContent =
+            "Frizz Control Products";
+
+
+        products = [
+
+            "Smoothing Shampoo",
+
+            "Anti-Frizz Conditioner",
+
+            "Smoothing Hair Serum",
+
+            "Hydrating Hair Mask"
+
+        ];
+
+    }
+
+
+
+    else {
+
+
+        productTitle.textContent =
+            "Personalized Hair Care Products";
+
+
+        products = [
+
+            "Gentle Shampoo",
+
+            "Conditioner",
+
+            "Hair Serum",
+
+            "Hair Mask"
+
+        ];
+
+    }
+
+
+
+    products.forEach(function(product) {
+
+
+        let li =
+            document.createElement("li");
+
+
+        li.textContent = product;
+
+
+        productList.appendChild(li);
+
+    });
+
+
+    showScreen("productScreen");
+
+}
+
+
+
+// ==============================
+// BACK TO RECOMMENDATION
+// ==============================
+
+document.getElementById("backToRecommendation")
+    .addEventListener("click", function() {
+
+        showScreen("recommendationScreen");
+
+    });
+
+
+
+// ==============================
+// ROUTINE BUTTON
+// ==============================
+
+document.getElementById("routineButton")
+    .addEventListener("click", function() {
+
+        showScreen("routineScreen");
+
+    });
+
+
+
+// ==============================
+// BACK TO PRODUCTS
+// ==============================
+
+document.getElementById("routineBackButton")
+    .addEventListener("click", function() {
+
+        showScreen("productScreen");
+
+    });
+
+
+
+// ==============================
+// PROGRESS BUTTON
+// ==============================
+
+document.getElementById("progressButton")
+    .addEventListener("click", function() {
+
+
+        let savedProgress =
+            localStorage.getItem("hairProgress");
+
+
+        if (savedProgress === null) {
+
+            savedProgress = 0;
+
+        }
+
+
+        savedProgress = Number(savedProgress);
+
+
+        document.getElementById("progressFill")
+            .style.width =
+            savedProgress + "%";
+
+
+        document.getElementById("progressPercent")
+            .textContent =
+            savedProgress + "% completed";
+
+
+        showScreen("progressScreen");
+
+    });
+
+
+
+// ==============================
+// UPDATE PROGRESS
+// ==============================
+
+document.getElementById("updateProgressButton")
+    .addEventListener("click", function() {
+
+
+        let progress =
+            localStorage.getItem("hairProgress");
+
+
+        if (progress === null) {
+
+            progress = 20;
+
+        }
+
+        else {
+
+            progress =
+                Number(progress) + 20;
+
+        }
+
+
+        if (progress > 100) {
+
+            progress = 100;
+
+        }
+
+
+        localStorage.setItem(
+            "hairProgress",
+            progress
+        );
+
+
+        document.getElementById("progressFill")
+            .style.width =
+            progress + "%";
+
+
+        document.getElementById("progressPercent")
+            .textContent =
+            progress + "% completed";
+
+
+    });
+
+
+
+// ==============================
+// BACK TO ROUTINE
+// ==============================
+
+document.getElementById("backToRoutine")
+    .addEventListener("click", function() {
+
+        showScreen("routineScreen");
+
+    });
+// ==============================
+// PROFILE
+// ==============================
+
+function loadProfile() {
+
+    document.getElementById("profileName").textContent =
+        localStorage.getItem("name") || "Not available";
+
+    document.getElementById("profileAge").textContent =
+        localStorage.getItem("age") || "Not available";
+
+    document.getElementById("profileGender").textContent =
+        localStorage.getItem("gender") || "Not available";
+
+    document.getElementById("profileEmail").textContent =
+        localStorage.getItem("email") || "Not available";
+
+    document.getElementById("profilePhone").textContent =
+        localStorage.getItem("phone") || "Not available";
+}
+
+
+// ==============================
+// OPEN PROFILE
+// ==============================
+
+document.getElementById("profileButton")
+    .addEventListener("click", function() {
+
+        loadProfile();
+
+        showScreen("profileScreen");
+
+    });
+
+
+// ==============================
+// BACK TO PROGRESS
+// ==============================
+
+document.getElementById("profileBackButton")
+    .addEventListener("click", function() {
+
+        showScreen("progressScreen");
+
+    });
+
+
+// ==============================
+// VIEW HAIR PROFILE
+// ==============================
+
+document.getElementById("profileHairButton")
+    .addEventListener("click", function() {
+
+        document.getElementById("resultName").textContent =
+            localStorage.getItem("name") || "";
+
+        document.getElementById("resultHairType").textContent =
+            localStorage.getItem("hairType") || "";
+
+        document.getElementById("resultScalpType").textContent =
+            localStorage.getItem("scalpType") || "";
+
+        document.getElementById("resultConcern").textContent =
+            localStorage.getItem("hairConcern") || "";
+
+        document.getElementById("resultWash").textContent =
+            localStorage.getItem("washFrequency") || "";
+
+        showScreen("analysisScreen");
+
+    });
+// ==============================
+// OPEN DASHBOARD
+// ==============================
+
+document.getElementById("dashboardButton")
+    .addEventListener("click", function() {
+        
+        updateDashboardSummary();
+        showScreen("dashboardScreen");
+
+    });
+// ================= OPEN LOGIN PAGE =================
+
+document.getElementById("loginPageButton")
+    .addEventListener("click", function () {
+        showScreen("loginScreen");
+    });
+// ================= DASHBOARD BUTTONS =================
+
+document.getElementById("dashboardProfileButton")
+    .addEventListener("click", function () {
+        loadProfile();
+        showScreen("profileScreen");
+    });
+
+document.getElementById("dashboardAnalysisButton")
+    .addEventListener("click", function () {
+        showScreen("analysisScreen");
+    });
+
+document.getElementById("dashboardRecommendationButton")
+    .addEventListener("click", function () {
+        showScreen("recommendationScreen");
+    });
+
+document.getElementById("dashboardProductButton")
+    .addEventListener("click", function () {
+        showScreen("productScreen");
+    });
+
+document.getElementById("dashboardRoutineButton")
+    .addEventListener("click", function () {
+        showScreen("routineScreen");
+    });
+
+document.getElementById("dashboardProgressButton")
+    .addEventListener("click", function () {
+        showScreen("progressScreen");
+    });
+// ================= LOGOUT =================
+
+document.getElementById("logoutButton")
+    .addEventListener("click", function () {
+
+        localStorage.clear();
+
+        showScreen("welcomeScreen");
+    });
+// ==============================
+// DASHBOARD SUMMARY
+// ==============================
+
+function updateDashboardSummary() {
+
+    document.getElementById("summaryHairType").textContent =
+        localStorage.getItem("hairType") || "Not selected";
+
+    document.getElementById("summaryScalpType").textContent =
+        localStorage.getItem("scalpType") || "Not selected";
+
+    document.getElementById("summaryConcern").textContent =
+        localStorage.getItem("hairConcern") || "Not selected";
+
+    const name = localStorage.getItem("name");
+
+    if (name) {
+        document.getElementById("dashboardUserName").textContent =
+            "Welcome, " + name + " 👋";
+    }
+}
+// ==============================
+// REGISTER SERVICE WORKER
+// ==============================
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(function () {
+                console.log("Service Worker registered");
+            })
+            .catch(function (error) {
+                console.log("Service Worker registration failed:", error);
+            });
+    });
+}
+
+</script>
+</body>
+</html>
