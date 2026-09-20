@@ -6,5 +6,15 @@
   "background_color": "#f4f1f6",
   "theme_color": "#d9c5f0",
   "description": "Personalized AI Hair Care Analysis and Recommendation App",
-  "icons": []
-}
+  "icons": "icons": [
+  {
+    "src": "icon-192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  },
+  {
+    "src": "icon-512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }
+]
